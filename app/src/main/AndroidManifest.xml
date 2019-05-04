@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlaceOrder"></activity>
+        <activity android:name=".OrderSummary"></activity>
+        <activity android:name=".PlaceOrder" />
         <activity android:name=".BuyOrRefill" />
 
         <meta-data

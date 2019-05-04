@@ -84,7 +84,7 @@ public class PlaceOrder extends AppCompatActivity {
         {
             public void onClick(View paramAnonymousView)
             {
-                Intent intent = new Intent(PlaceOrder.this.getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(PlaceOrder.this.getApplicationContext(), OrderSummary.class);
                 intent.putExtra("item", product);
                 intent.putExtra("refill_buy", str1);
                 intent.putExtra("quantity", qty.getText().toString());

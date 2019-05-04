@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity
 
     public void Orderz(){
 
-        reference2 = FirebaseDatabase.getInstance().getReference("users").child("UpgU8uECxVO00SFnavZMQCOBnK03").child("Orders");
+        reference2 = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Orders");
 
         reference2.addValueEventListener(new ValueEventListener() {
             @Override
