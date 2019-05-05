@@ -39,18 +39,22 @@ import app.weconnect.gasappgasup.mFragments.InterStellar;
 import app.weconnect.gasappgasup.mFragments.InterUniverse;
 import app.weconnect.gasappgasup.mRecycler.MyAdapter;
 import app.weconnect.gasappgasup.mRecycler.MyOrders;
+import app.weconnect.gasappgasup.mRecycler.VendorAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class VendorActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DatabaseReference reference, reference2;
     RecyclerView recyclerView;
     ArrayList<Products> list;
     ArrayList<Orders> list2;
+    ArrayList<VendorClass> list3;
     MyAdapter adapter;
     MyOrders orderz;
+    VendorAdapter vendorAdapter;
     DatabaseReference databaseReference;
 
 
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null)
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         //myRef = database.getReference("remoteControl");
         reference = FirebaseDatabase.getInstance().getReference().child("Shop");
 
-        Shop();
+        VendorOrderz();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
@@ -169,17 +173,17 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.interplanetary) {
             //PERFORM TRANSACTION TO REPLACE CONTAINER WITH FRAGMENT
             Shop();
-            MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterPlanetary.newInstance()).commit();
+            VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterPlanetary.newInstance()).commit();
 
         } else if (id == R.id.interstellar) {
-            MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
-            Orderz();
+            VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
+            VendorOrderz();
 
         } else if (id == R.id.intergalactic) {
-            MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
+            VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
 
         } else if (id == R.id.interuniverse) {
-            MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
+            VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
 
         } else if (id == R.id.nav_share) {
 
@@ -203,7 +207,7 @@ public class MainActivity extends AppCompatActivity
                     Products p = dataSnapshot1.getValue(Products.class);
                     list.add(p);
                 }
-                adapter = new MyAdapter(MainActivity.this, list);
+                adapter = new MyAdapter(VendorActivity.this, list);
                 recyclerView.setAdapter(adapter);
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -211,7 +215,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                //.setAction("Action", null).show();
+                        //.setAction("Action", null).show();
                         startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
                     }
                 });
@@ -224,7 +228,7 @@ public class MainActivity extends AppCompatActivity
 
                 //REFERNCE NAV VIEW AND ATTACH ITS ITEM SELECTION LISTENER
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                navigationView.setNavigationItemSelectedListener(MainActivity.this);
+                navigationView.setNavigationItemSelectedListener(VendorActivity.this);
             }
 
             @Override
@@ -235,29 +239,33 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void Orderz(){
+    public void VendorOrderz(){
 
-        reference2 = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Orders");
+        String time_recorded = new SimpleDateFormat("HH:mm:ss dd-MMM-yyyy").format(new Date());
+        String date_substring = time_recorded.substring(time_recorded.length()-11);
+        final String month_year = date_substring.substring(date_substring.length()-8);
+
+        reference2 = FirebaseDatabase.getInstance().getReference("vendors").child("t5Ay6Hs59mO1bMdJL0EJsVofeoA2").child("Orders").child(month_year);
 
         reference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot3) {
-                list2 = new ArrayList<Orders>();
+                list3 = new ArrayList<VendorClass>();
                 for (DataSnapshot dataSnapshot2 : dataSnapshot3.getChildren()) {
-                    Orders o = dataSnapshot2.getValue(Orders.class);
-                    list2.add(o);
+                    VendorClass o = dataSnapshot2.getValue(VendorClass.class);
+                    list3.add(o);
 
-                   // Toast.makeText(getApplicationContext(),o.getType(),Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getApplicationContext(),o.getType(),Toast.LENGTH_LONG).show();
                 }
-                orderz = new MyOrders(MainActivity.this, list2);
-                recyclerView.setAdapter(orderz);
+                vendorAdapter = new VendorAdapter(VendorActivity.this, list3);
+                recyclerView.setAdapter(vendorAdapter);
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                //.setAction("Action", null).show();
+                        //.setAction("Action", null).show();
 
                         startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
                     }
@@ -271,7 +279,7 @@ public class MainActivity extends AppCompatActivity
 
                 //REFERNCE NAV VIEW AND ATTACH ITS ITEM SELECTION LISTENER
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                navigationView.setNavigationItemSelectedListener(MainActivity.this);
+                navigationView.setNavigationItemSelectedListener(VendorActivity.this);
             }
 
             @Override

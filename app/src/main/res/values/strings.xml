@@ -9,4 +9,8 @@
     <string name="openDrawer">open_drawer</string>
     <string name="closeDrawer">close_drawer</string>
 
+    <string name="rationale_location">This app needs to access location.</string>
+    <string name="setting">Settings</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

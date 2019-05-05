@@ -25,6 +25,7 @@ public class BuyOrRefill extends AppCompatActivity {
     private Products newz = new Products();
     private ProgressBar progressBar;
     private TextView qty;
+    private String str4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class BuyOrRefill extends AppCompatActivity {
                 String title = paramAnonymousDataSnapshot.child("title").getValue().toString();
                 String str1 = paramAnonymousDataSnapshot.child("image").getValue().toString();
                 String str2 = paramAnonymousDataSnapshot.child("vendor_name").getValue().toString();
+                str4 = paramAnonymousDataSnapshot.child("vendor").getValue().toString();
                 String buying_price = paramAnonymousDataSnapshot.child("desc").getValue().toString();
                 String refill_price = paramAnonymousDataSnapshot.child("refill").getValue().toString();
                 BuyOrRefill.this.newz.setDesc(buying_price);
@@ -125,6 +127,7 @@ public class BuyOrRefill extends AppCompatActivity {
         localIntent.putExtra("quantity", this.qty.getText().toString());
         localIntent.putExtra("item_price", paramString2);
         localIntent.putExtra("refill_buy", paramString1);
+        localIntent.putExtra("vendor", str4);
         localIntent.putExtra("chosen_vendor", this.newz.getVendor());
         localIntent.putExtra("image_string", this.newz.getImage());
         startActivity(localIntent);

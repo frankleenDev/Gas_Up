@@ -21,9 +21,7 @@ import app.weconnect.gasappgasup.Products;
 import java.util.ArrayList;
 
 
-/**
- * Created by Oclemy on 9/24/2016 for ProgrammingWizards Channel and http://www.camposha.com.
- */
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
@@ -54,10 +52,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.onClick(position);
         }*/
 
+
+
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, BuyOrRefill.class);
                 intent.putExtra("prod_id", profiles.get(position).getVendor());
                 context.startActivity(intent);
