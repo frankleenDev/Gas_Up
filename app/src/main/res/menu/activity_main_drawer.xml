@@ -8,16 +8,16 @@
             android:title="Home" />
         <item
             android:id="@+id/interstellar"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@mipmap/list"
             android:title="My Orders" />
         <item
             android:id="@+id/intergalactic"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="InterGalactic" />
         <item
-            android:id="@+id/interuniverse"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="InterUniverse" />
+            android:id="@+id/sign_out"
+            android:icon="@mipmap/sign_out"
+            android:title="Sign Out" />
     </group>
 
     <item android:title="Communicate">

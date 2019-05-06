@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(getIntent()!=null){
 
-            phone_number.setText(getIntent().getStringExtra("phone"));
+            phone_number.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+
 
         }
 
@@ -177,8 +178,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.intergalactic) {
             MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
 
-        } else if (id == R.id.interuniverse) {
-            MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
+        } else if (id == R.id.sign_out) {
+
+            signOut();
+            //MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
 
         } else if (id == R.id.nav_share) {
 

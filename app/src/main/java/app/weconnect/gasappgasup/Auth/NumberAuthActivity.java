@@ -18,6 +18,7 @@ import java.util.Arrays;
 
 import app.weconnect.gasappgasup.MainActivity;
 import app.weconnect.gasappgasup.R;
+import app.weconnect.gasappgasup.SplashScreen;
 
 public class NumberAuthActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class NumberAuthActivity extends AppCompatActivity {
 
             if (!auth.getCurrentUser().getPhoneNumber().isEmpty()) {
 
-                startActivity(new Intent(getApplicationContext(), MainActivity.class)
+                startActivity(new Intent(getApplicationContext(), SplashScreen.class)
                         .putExtra("phone", auth.getCurrentUser().getPhoneNumber())
                 );
                 finish();
@@ -76,7 +77,7 @@ public class NumberAuthActivity extends AppCompatActivity {
 
                     database.child("users").child(auth.getCurrentUser().getUid()).child("Profile").child("Phone").setValue(mobile_phone);
 
-                    startActivity(new Intent(this, MainActivity.class)
+                    startActivity(new Intent(this, SplashScreen.class)
                             .putExtra("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
                     finish();
                     return;

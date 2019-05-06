@@ -1,5 +1,6 @@
 package app.weconnect.gasappgasup;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -109,7 +110,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
 
         }
 
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null)
@@ -172,7 +173,9 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
         if (id == R.id.dashboard) {
             //PERFORM TRANSACTION TO REPLACE CONTAINER WITH FRAGMENT
             //Shop();
-            VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterPlanetary.newInstance()).commit();
+            //VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterPlanetary.newInstance()).commit();
+
+            startActivity(new Intent(getApplicationContext(),VendorDashBoard.class));
 
         } else if (id == R.id.orderz) {
 
@@ -180,10 +183,14 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
 
         } else if (id == R.id.intergalactic) {
+                setItemz();
+
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
 
-        } else if (id == R.id.interuniverse) {
-            VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
+        } else if (id == R.id.sign_out2) {
+
+            signOut();
+            //VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
 
         } else if (id == R.id.nav_share) {
 
@@ -200,6 +207,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
     public void setItemz(){
 
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list4 = new ArrayList<PredefinedItems>();
@@ -211,12 +219,15 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
                 recyclerView.setAdapter(setItemsAdapter);
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+                fab.setVisibility(View.GONE);
+
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         //.setAction("Action", null).show();
-                        startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
+                        //startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
                     }
                 });
 

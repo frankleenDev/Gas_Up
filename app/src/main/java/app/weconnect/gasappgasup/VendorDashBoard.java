@@ -18,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +33,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.weconnect.gasappgasup.Auth.NumberAuthActivity;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -256,9 +260,16 @@ public class VendorDashBoard extends AppCompatActivity {
                     toolbar.setTitle("Profile");
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     return true;
-                case R.id.interuniverse:
-                    toolbar.setTitle("Settings");
+                case R.id.sign_out2:
+                    //toolbar.setTitle("Settings");
+                    AuthUI.getInstance().signOut(VendorDashBoard.this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
+                            startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
+
+                        }
+                    });
                     return true;
                 case R.id.nav_share:
                     toolbar.setTitle("GasApp");

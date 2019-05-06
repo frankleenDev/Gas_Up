@@ -14,7 +14,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
+        <activity android:name=".Auth.ResetPasswordActivity"></activity>
+        <activity android:name=".Auth.SignUpVendor" />
+        <activity android:name=".Auth.LoginActivity" />
         <activity
             android:name=".SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -27,7 +30,7 @@
         </activity>
         <activity
             android:name=".VendorDashBoard"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity android:name=".VendorActivity" />
         <activity android:name=".OrderSummary" />
         <activity android:name=".PlaceOrder" />

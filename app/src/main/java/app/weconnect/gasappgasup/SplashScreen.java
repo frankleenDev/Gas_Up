@@ -14,8 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -111,7 +111,19 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getCount();
+        FirebaseUser auth1 = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(auth1==null){
+
+            startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
+
+        }
+
+        if(auth1!=null){
+
+            getCount();
+
+        }
 
         String time_recorded = new SimpleDateFormat("HH:mm:ss dd-MMM-yyyy").format(new Date());
         date_substring = time_recorded.substring(time_recorded.length()-4).trim();
@@ -119,7 +131,7 @@ public class SplashScreen extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(),date_substring,Toast.LENGTH_LONG).show();
 
         //checkData();
-        getCount();
+        //getCount();
 
         setContentView(R.layout.activity_splash_screen);
 
@@ -142,7 +154,9 @@ public class SplashScreen extends AppCompatActivity {
        // findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         //testLong();
-
+        if (auth1!=null) {
+            //checkData();
+        }
     }
 
     @Override
@@ -202,7 +216,7 @@ public class SplashScreen extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child("t5Ay6Hs59mO1bMdJL0EJsVofeoA2").child("Orders");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -210,43 +224,51 @@ public class SplashScreen extends AppCompatActivity {
 
                 //adapter = new MyAdapter(VendorActivity.this, list);
                 //recyclerView.setAdapter(adapter);
+                if (dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()) {
 
 
-                jan =  dataSnapshot.child("Jan-"+date_substring).getChildrenCount();
-                feb =  dataSnapshot.child("Feb-"+date_substring).getChildrenCount();
-                mar =  dataSnapshot.child("Mar-"+date_substring).getChildrenCount();
-                apr =  dataSnapshot.child("Apr-"+date_substring).getChildrenCount();
-                may =  dataSnapshot.child("May-"+date_substring).getChildrenCount();
-                jun =  dataSnapshot.child("Jun-"+date_substring).getChildrenCount();
-                jul =  dataSnapshot.child("Jul-"+date_substring).getChildrenCount();
-                aug =  dataSnapshot.child("Aug-"+date_substring).getChildrenCount();
-                sep =  dataSnapshot.child("Sep-"+date_substring).getChildrenCount();
-                oct =  dataSnapshot.child("Oct-"+date_substring).getChildrenCount();
-                nov =  dataSnapshot.child("Nov-"+date_substring).getChildrenCount();
-                dec =  dataSnapshot.child("Dec-"+date_substring).getChildrenCount();
+                    jan = dataSnapshot.child(auth).child("Orders").child("Jan-" + date_substring).getChildrenCount();
+                    feb = dataSnapshot.child(auth).child("Orders").child("Feb-" + date_substring).getChildrenCount();
+                    mar = dataSnapshot.child(auth).child("Orders").child("Mar-" + date_substring).getChildrenCount();
+                    apr = dataSnapshot.child(auth).child("Orders").child("Apr-" + date_substring).getChildrenCount();
+                    may = dataSnapshot.child(auth).child("Orders").child("May-" + date_substring).getChildrenCount();
+                    jun = dataSnapshot.child(auth).child("Orders").child("Jun-" + date_substring).getChildrenCount();
+                    jul = dataSnapshot.child(auth).child("Orders").child("Jul-" + date_substring).getChildrenCount();
+                    aug = dataSnapshot.child(auth).child("Orders").child("Aug-" + date_substring).getChildrenCount();
+                    sep = dataSnapshot.child(auth).child("Orders").child("Sep-" + date_substring).getChildrenCount();
+                    oct = dataSnapshot.child(auth).child("Orders").child("Oct-" + date_substring).getChildrenCount();
+                    nov = dataSnapshot.child(auth).child("Orders").child("Nov-" + date_substring).getChildrenCount();
+                    dec = dataSnapshot.child(auth).child("Orders").child("Dec-" + date_substring).getChildrenCount();
 
-                Toast.makeText(getApplicationContext(),String.valueOf(jan),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
 
-                //checkData();
+                    //checkData();
 
-                Intent intent = new Intent(getApplicationContext(), VendorDashBoard.class);
-                intent.putExtra("jan", jan);
-                intent.putExtra("feb", feb);
-                intent.putExtra("mar", mar);
-                intent.putExtra("apr", apr);
-                intent.putExtra("may", may);
-                intent.putExtra("oct", oct);
-                intent.putExtra("jun", jun);
-                intent.putExtra("jul", jul);
-                intent.putExtra("aug", aug);
-                intent.putExtra("sep", sep);
-                intent.putExtra("nov", nov);
-                intent.putExtra("dec", dec);
+                    Intent intent = new Intent(getApplicationContext(), VendorDashBoard.class);
+                    intent.putExtra("jan", jan);
+                    intent.putExtra("feb", feb);
+                    intent.putExtra("mar", mar);
+                    intent.putExtra("apr", apr);
+                    intent.putExtra("may", may);
+                    intent.putExtra("oct", oct);
+                    intent.putExtra("jun", jun);
+                    intent.putExtra("jul", jul);
+                    intent.putExtra("aug", aug);
+                    intent.putExtra("sep", sep);
+                    intent.putExtra("nov", nov);
+                    intent.putExtra("dec", dec);
 
-                //Toast.makeText(getApplicationContext(),String.valueOf(jan),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),String.valueOf(jan),Toast.LENGTH_LONG).show();
 
+                    Toast.makeText(getApplicationContext(),"Vendor...",Toast.LENGTH_LONG).show();
+                    startActivity(intent);
 
-                startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
+
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                }
 
                 /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                 fab.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +308,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
-                    if (data.child("vendors").child("t5Ay6Hs59mO1bMdJL0EJsVofeoA2").exists()) {
+                    if (data.child("vendors").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()) {
                         //do ur stuff
 
                         if(jan!=-1) {
