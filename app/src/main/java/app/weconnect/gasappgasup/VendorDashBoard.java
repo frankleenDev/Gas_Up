@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.firebase.ui.auth.AuthUI;
@@ -76,7 +75,7 @@ public class VendorDashBoard extends AppCompatActivity {
 
         }
 
-        Toast.makeText(getApplicationContext(),String.valueOf(janCount),Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),String.valueOf(janCount),Toast.LENGTH_LONG).show();
 
         NavigationView navigation =  findViewById(R.id.navigation);
         navigation.setNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -245,19 +244,19 @@ public class VendorDashBoard extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.dashboard:
-                    toolbar.setTitle("Dashboard");
+                    //toolbar.setTitle("Dashboard");
                     startActivity(new Intent(getApplicationContext(),VendorDashBoard.class));
                     return true;
                 case R.id.orderz:
-                    toolbar.setTitle("Orders");
+                    //toolbar.setTitle("Orders");
                     startActivity(new Intent(getApplicationContext(),VendorActivity.class));
                     return true;
                 case R.id.order_number:
-                    toolbar.setTitle("Vendor");
+                    //toolbar.setTitle("Vendor");
                     startActivity(new Intent(getApplicationContext(),VendorActivity.class));
                     return true;
                 case R.id.intergalactic:
-                    toolbar.setTitle("Profile");
+                    //toolbar.setTitle("Profile");
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     return true;
                 case R.id.sign_out2:

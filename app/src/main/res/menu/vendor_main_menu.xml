@@ -11,9 +11,9 @@
             android:icon="@mipmap/list"
             android:title="Orders" />
         <item
-            android:id="@+id/intergalactic"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="InterGalactic" />
+            android:id="@+id/productz"
+            android:icon="@mipmap/gas"
+            android:title="My Products" />
         <item
             android:id="@+id/sign_out2"
             android:icon="@mipmap/sign_out"

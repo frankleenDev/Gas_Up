@@ -183,7 +183,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
 
         } else if (id == R.id.intergalactic) {
-                setItemz();
+
 
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
 
@@ -192,7 +192,9 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
             signOut();
             //VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.productz) {
+
+            setItemz();
 
         } else if (id == R.id.nav_send) {
 
