@@ -96,6 +96,7 @@ public class OrderSummary extends AppCompatActivity
                         firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Orders").child(month_year).push().setValue(vendorClass);
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
 
                     }
                 });

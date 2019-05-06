@@ -39,6 +39,7 @@ import app.weconnect.gasappgasup.mFragments.InterStellar;
 import app.weconnect.gasappgasup.mFragments.InterUniverse;
 import app.weconnect.gasappgasup.mRecycler.MyAdapter;
 import app.weconnect.gasappgasup.mRecycler.MyOrders;
+import app.weconnect.gasappgasup.mRecycler.SetItemsAdapter;
 import app.weconnect.gasappgasup.mRecycler.VendorAdapter;
 
 import java.text.SimpleDateFormat;
@@ -49,12 +50,10 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
 
     DatabaseReference reference, reference2;
     RecyclerView recyclerView;
-    ArrayList<Products> list;
-    ArrayList<Orders> list2;
     ArrayList<VendorClass> list3;
-    MyAdapter adapter;
-    MyOrders orderz;
+    ArrayList<PredefinedItems> list4;
     VendorAdapter vendorAdapter;
+    SetItemsAdapter setItemsAdapter;
     DatabaseReference databaseReference;
 
 
@@ -62,7 +61,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
     public boolean onCreateOptionsMenu(Menu menu) {
 
 
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.vendor_main_menu,menu);
         return super.onCreateOptionsMenu(menu);
 
     }
@@ -93,7 +92,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_vendor_orders);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -110,7 +109,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
 
         }
 
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null)
@@ -170,14 +169,15 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         //OPEN APPROPRIATE FRAGMENT WHEN NAV ITEM IS SELECTED
-        if (id == R.id.interplanetary) {
+        if (id == R.id.dashboard) {
             //PERFORM TRANSACTION TO REPLACE CONTAINER WITH FRAGMENT
-            Shop();
+            //Shop();
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterPlanetary.newInstance()).commit();
 
-        } else if (id == R.id.interstellar) {
+        } else if (id == R.id.orderz) {
+
+            setItemz();
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
-            VendorOrderz();
 
         } else if (id == R.id.intergalactic) {
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
@@ -197,18 +197,18 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    public void Shop(){
+    public void setItemz(){
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list = new ArrayList<Products>();
+                list4 = new ArrayList<PredefinedItems>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Products p = dataSnapshot1.getValue(Products.class);
-                    list.add(p);
+                    PredefinedItems p = dataSnapshot1.getValue(PredefinedItems.class);
+                    list4.add(p);
                 }
-                adapter = new MyAdapter(VendorActivity.this, list);
-                recyclerView.setAdapter(adapter);
+                setItemsAdapter = new SetItemsAdapter(VendorActivity.this, list4);
+                recyclerView.setAdapter(setItemsAdapter);
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                 fab.setOnClickListener(new View.OnClickListener() {

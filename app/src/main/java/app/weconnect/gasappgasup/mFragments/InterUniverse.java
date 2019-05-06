@@ -32,7 +32,7 @@ public class InterUniverse extends Fragment {
 
 
         //REFERENCE
-        rv= (RecyclerView) rootView.findViewById(R.id.interuniverse_RV);
+        //rv= (RecyclerView) rootView.findViewById(R.id.interuniverse_RV);
 
         //LAYOUT MANAGER
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));

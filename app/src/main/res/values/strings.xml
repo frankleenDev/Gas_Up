@@ -12,5 +12,11 @@
     <string name="rationale_location">This app needs to access location.</string>
     <string name="setting">Settings</string>
     <string name="cancel">Cancel</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

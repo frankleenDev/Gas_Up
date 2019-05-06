@@ -42,7 +42,7 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        holder.order_number.setText(orders.get(position).getOrder_no());
+        holder.order_number.setText("#" + orders.get(position).getOrder_no());
         holder.customer_name.setText(orders.get(position).getCustomer());
         holder.nature.setText(orders.get(position).getNature());
         holder.phone.setText(orders.get(position).getPhone_no());

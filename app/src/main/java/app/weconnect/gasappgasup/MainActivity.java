@@ -42,8 +42,7 @@ import app.weconnect.gasappgasup.mRecycler.MyOrders;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DatabaseReference reference, reference2;
     RecyclerView recyclerView;
