@@ -44,15 +44,17 @@ public class BuyOrRefill extends AppCompatActivity {
 
         String product_id = getIntent().getExtras().getString("prod_id");
 
-        final TextView cylinder = (TextView) findViewById(R.id.cylinder_type);
-        final TextView vendor = (TextView) findViewById(R.id.vendor);
-        qty = ((TextView) findViewById(R.id.qty));
-        Button add_btn = (Button) findViewById(R.id.add_btn);
-        Button minus_button = (Button) findViewById(R.id.minus_btn);
-        final Button refill_btn = (Button) findViewById(R.id.refill_btn);
-        final Button buy_btn = (Button) findViewById(R.id.buy_btn);
-        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        final TextView cylinder   =  findViewById(R.id.cylinder_type);
+        final TextView vendor     =  findViewById(R.id.vendor);
+                          qty     =  findViewById(R.id.qty);
+        Button add_btn            =  findViewById(R.id.add_btn);
+        Button minus_button       =  findViewById(R.id.minus_btn);
+        final Button refill_btn   =  findViewById(R.id.refill_btn);
+        final Button buy_btn      =  findViewById(R.id.buy_btn);
+        final ImageView imageView =  findViewById(R.id.imageView);
         this.qty.setText("1");
+
+
 
         FirebaseDatabase.getInstance().getReference().child("Shop").child(product_id).addValueEventListener(new ValueEventListener() {
             public void onCancelled(@NonNull DatabaseError paramAnonymousDatabaseError) {

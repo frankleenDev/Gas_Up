@@ -14,22 +14,20 @@
             android:id="@+id/productz"
             android:icon="@mipmap/gas"
             android:title="My Products" />
-        <item
-            android:id="@+id/sign_out2"
-            android:icon="@mipmap/sign_out"
-            android:title="Sign Out" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Admnistrative">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/add_vendor"
+                android:icon="@mipmap/user_silhouette"
+                android:title="Add Vendor" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/sign_out2"
+                android:icon="@mipmap/sign_out"
+                android:title="Sign Out" />
+
         </menu>
     </item>
 

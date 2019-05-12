@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import app.weconnect.gasappgasup.Auth.NumberAuthActivity;
+import app.weconnect.gasappgasup.Auth.UserProfile;
 import app.weconnect.gasappgasup.mFragments.InterGalactic;
 import app.weconnect.gasappgasup.mFragments.InterPlanetary;
 import app.weconnect.gasappgasup.mFragments.InterStellar;
@@ -175,15 +176,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
             Orderz();
 
-        } else if (id == R.id.intergalactic) {
-            MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterGalactic.newInstance()).commit();
-
         } else if (id == R.id.sign_out) {
 
             signOut();
             //MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.profile) {
+
+            //MainActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
+            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+
 
         } else if (id == R.id.nav_send) {
 

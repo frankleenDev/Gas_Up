@@ -50,27 +50,32 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="type:"/>
+                    android:text="type:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="nature:"/>
+                    android:text="nature:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="quantity:"/>
+                    android:text="quantity:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="loc/vendor:"/>
+                    android:text="loc/vendor:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="total:"/>
+                    android:text="total:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
             </LinearLayout>
 
@@ -125,7 +130,7 @@
             android:id="@+id/date_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="@dimen/card_album_radius"
             android:gravity="end"
             android:text="16:40:23 23.05.2019"
             android:textAlignment="textEnd" />

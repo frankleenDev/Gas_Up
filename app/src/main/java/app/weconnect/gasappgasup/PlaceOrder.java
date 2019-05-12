@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class PlaceOrder extends AppCompatActivity implements LocationView {
     private Button cancel, order_bttn;
     private ProgressBar progressBar;
     String swap, last_count, order_no;
+    private String payment = "none";
 
 
     @Override
@@ -93,6 +95,30 @@ public class PlaceOrder extends AppCompatActivity implements LocationView {
 
         //Double.isNaN(d2);
         //Double.isNaN(d1);
+        final RadioButton cash_on_delivery = findViewById(R.id.cash_on_delivery);
+        final RadioButton pay_by_mobile    = findViewById(R.id.pay_by_mobile);
+
+        cash_on_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                payment = "cash";
+                cash_on_delivery.setChecked(true);
+                pay_by_mobile.setChecked(false);
+
+            }
+        });
+
+        pay_by_mobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                payment = "mobile";
+                cash_on_delivery.setChecked(false);
+                pay_by_mobile.setChecked(true);
+
+            }
+        });
 
         grand_total.setText(String.valueOf(d1 + (d1 * 0.18)));
         this.address.setText("Zanzibar, Mjini Magharibi");
@@ -104,10 +130,23 @@ public class PlaceOrder extends AppCompatActivity implements LocationView {
                finish();
             }
         });
-        this.order_bttn.setOnClickListener(new View.OnClickListener()
+        order_bttn.setOnClickListener(new View.OnClickListener()
         {
+
             public void onClick(View paramAnonymousView)
             {
+
+                if(payment=="none") {
+
+                    Toast.makeText(getApplicationContext(), "Choose a payment method...", Toast.LENGTH_LONG).show();
+
+                }
+                else if(payment=="mobile"){
+
+                    Toast.makeText(getApplicationContext(), "Mobile payment still in development...", Toast.LENGTH_LONG).show();
+
+                }else {
+
                 Intent intent = new Intent(PlaceOrder.this.getApplicationContext(), OrderSummary.class);
                 intent.putExtra("item", product);
                 intent.putExtra("refill_buy", str1);
@@ -119,6 +158,8 @@ public class PlaceOrder extends AppCompatActivity implements LocationView {
                 intent.putExtra("location", address.getText().toString());
                 intent.putExtra("image_string", imageString);
                 startActivity(intent);
+
+                }
             }
         });
     }

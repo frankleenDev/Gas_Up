@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             email      =  itemView.findViewById(R.id.refill_price);
             profilePic =  itemView.findViewById(R.id.image_view);
             vendor     =  itemView.findViewById(R.id.vendor_txt);
-            linearLayout     =  itemView.findViewById(R.id.linearCard);
+            linearLayout     =  itemView.findViewById(R.id.user_linearLayout);
         }
         public void onClick(final int position)
         {

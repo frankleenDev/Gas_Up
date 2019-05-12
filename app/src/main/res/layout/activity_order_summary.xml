@@ -254,13 +254,14 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center"
-        android:id="@+id/linearProgress4"
         android:visibility="gone"
+        android:id="@+id/linearProgress4"
         android:background="#B3FFFFFF ">
 
         <ProgressBar
             android:id="@+id/progress_bar4"
             android:layout_width="50dp"
+            android:visibility="gone"
             android:layout_gravity="center"
             android:layout_height="50dp" />
 

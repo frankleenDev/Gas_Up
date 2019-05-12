@@ -11,24 +11,22 @@
             android:icon="@mipmap/list"
             android:title="My Orders" />
         <item
-            android:id="@+id/intergalactic"
-            android:icon="@mipmap/gas"
-            android:title="InterGalactic" />
-        <item
-            android:id="@+id/sign_out"
-            android:icon="@mipmap/sign_out"
-            android:title="Sign Out" />
+            android:id="@+id/profile"
+            android:icon="@mipmap/user_silhouette"
+            android:title="Profile" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/sign_out"
+                android:icon="@mipmap/sign_out"
+                android:title="Sign Out" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
+                android:visible="false"
                 android:title="Send" />
         </menu>
     </item>

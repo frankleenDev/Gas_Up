@@ -111,6 +111,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         FirebaseUser auth1 = FirebaseAuth.getInstance().getCurrentUser();
 
         if(auth1==null){
@@ -128,30 +130,11 @@ public class SplashScreen extends AppCompatActivity {
         String time_recorded = new SimpleDateFormat("HH:mm:ss dd-MMM-yyyy").format(new Date());
         date_substring = time_recorded.substring(time_recorded.length()-4).trim();
 
-        //Toast.makeText(getApplicationContext(),date_substring,Toast.LENGTH_LONG).show();
-
-        //checkData();
-        //getCount();
-
         setContentView(R.layout.activity_splash_screen);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         //mContentView = findViewById(R.id.fullscreen_content);
-
-
-        /* Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });*/
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-       // findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         //testLong();
         if (auth1!=null) {
@@ -240,11 +223,11 @@ public class SplashScreen extends AppCompatActivity {
                     nov = dataSnapshot.child(auth).child("Orders").child("Nov-" + date_substring).getChildrenCount();
                     dec = dataSnapshot.child(auth).child("Orders").child("Dec-" + date_substring).getChildrenCount();
 
-                    Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
 
                     //checkData();
 
-                    Intent intent = new Intent(getApplicationContext(), VendorDashBoard.class);
+                    Intent intent = new Intent(getApplicationContext(), VendorActivity.class);
                     intent.putExtra("jan", jan);
                     intent.putExtra("feb", feb);
                     intent.putExtra("mar", mar);
@@ -260,12 +243,12 @@ public class SplashScreen extends AppCompatActivity {
 
                     //Toast.makeText(getApplicationContext(),String.valueOf(jan),Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(getApplicationContext(),"Vendor...",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"Vendor...",Toast.LENGTH_LONG).show();
                     startActivity(intent);
 
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
 
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 }

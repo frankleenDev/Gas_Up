@@ -11,7 +11,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="60dp"
+        android:paddingTop="56dp"
         android:id="@+id/recycler_view">
     </android.support.v7.widget.RecyclerView>
 
@@ -29,5 +29,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/vendor_main_menu" />
+
+
 
 </android.support.v4.widget.DrawerLayout>

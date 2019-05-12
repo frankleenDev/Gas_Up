@@ -15,7 +15,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Auth.ResetPasswordActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".Auth.UserProfile" />
+        <activity android:name=".Auth.ResetPasswordActivity" />
         <activity android:name=".Auth.SignUpVendor" />
         <activity android:name=".Auth.LoginActivity" />
         <activity
@@ -31,7 +33,9 @@
         <activity
             android:name=".VendorDashBoard"
             android:theme="@style/AppTheme" />
-        <activity android:name=".VendorActivity" />
+        <activity
+            android:name=".VendorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OrderSummary" />
         <activity android:name=".PlaceOrder" />
         <activity android:name=".BuyOrRefill" />

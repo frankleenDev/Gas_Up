@@ -303,7 +303,7 @@
                     android:text="Cash on Delivery" />
 
                 <RadioButton
-                    android:id="@+id/mobile_check"
+                    android:id="@+id/pay_by_mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="15dp"

@@ -6,15 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import app.weconnect.gasappgasup.PredefinedItems;
+import app.weconnect.gasappgasup.Products;
 import app.weconnect.gasappgasup.R;
 
 import java.util.ArrayList;
+
+import static java.lang.String.valueOf;
 
 
 /**
@@ -24,6 +36,8 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
 
     Context context;
     ArrayList<PredefinedItems> orders;
+    String vendor_name;
+
 
     public SetItemsAdapter(Context c , ArrayList<PredefinedItems> o)
     {
@@ -31,14 +45,17 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
         orders = o;
     }
 
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.add_item_row,parent,false));
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         holder.title.setText(orders.get(position).getTitle());
         holder.refill_price.setText(orders.get(position).getRefill());
@@ -51,6 +68,60 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
             holder.onClick(position);
         }*/
 
+        holder.check_available.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+                final String vendorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child(vendorUID+position).child("Profile").child("agents_name");
+
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //adapter = new MyAdapter(VendorActivity.this, list);
+                        //recyclerView.setAdapter(adapter);
+
+                        vendor_name = (String) dataSnapshot.getValue();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                if (isChecked) {
+
+                    //EditText editText = findViewById(R.id.refill_price);
+
+                    String buying_prize = holder.buying_price.getText().toString();
+                    String refill_prize = holder.refill_price.getText().toString();
+
+                    Products newz = new Products(orders.get(position).getTitle(),buying_prize,orders.get(position).getImage(),String.valueOf(position),"url",refill_prize,vendorUID,vendor_name);
+
+                    firebaseDatabase.child("Shop").child(vendorUID+position).setValue(newz);
+
+                    //checkedStatus[holder.getAdapterPosition()] = true;
+                    //performCheckedActions(); //your logic here
+                } else {
+
+                    firebaseDatabase.child("Shop").child(vendorUID+position).removeValue();
+
+
+                    Toast.makeText(context,orders.get(position).getTitle()+" has been removed.",Toast.LENGTH_SHORT).show();
+
+
+                    //checkedStatus[holder.getAdapterPosition()] = false;
+                    //performUncheckedActions(); //your logic here
+                }
+            }
+        });
+
     }
 
     @Override
@@ -60,7 +131,8 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView title,refill_price, buying_price, check_available;
+        TextView title,refill_price, buying_price;
+        CheckBox check_available;
         ImageView image_view;
 
         public MyViewHolder(View itemView) {

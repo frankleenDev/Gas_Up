@@ -27,8 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +90,7 @@ public class VendorDashBoard extends AppCompatActivity {
 
         final TextView clietz = findViewById(R.id.clients_text);
         final TextView produtz = findViewById(R.id.productz_text);
-        final TextView deliveriz = findViewById(R.id.deliveries_text);
+        final TextView deliveriz = findViewById(R.id.delivery_text);
         LinearLayout linearLayout = findViewById(R.id.lineardashboard);
         ProgressBar progressBar = findViewById(R.id.progress_bardashboard);
 
@@ -255,10 +253,6 @@ public class VendorDashBoard extends AppCompatActivity {
                     //toolbar.setTitle("Vendor");
                     startActivity(new Intent(getApplicationContext(),VendorActivity.class));
                     return true;
-                case R.id.intergalactic:
-                    //toolbar.setTitle("Profile");
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    return true;
                 case R.id.sign_out2:
                     //toolbar.setTitle("Settings");
                     AuthUI.getInstance().signOut(VendorDashBoard.this).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -270,7 +264,7 @@ public class VendorDashBoard extends AppCompatActivity {
                         }
                     });
                     return true;
-                case R.id.nav_share:
+                case R.id.sign_out:
                     toolbar.setTitle("GasApp");
                     auth.signOut();
                     startActivity(new Intent(getApplicationContext(), VendorActivity.class));

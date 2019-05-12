@@ -42,6 +42,8 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
+
+
         holder.order_number.setText("#" + orders.get(position).getOrder_no());
         holder.customer_name.setText(orders.get(position).getCustomer());
         holder.nature.setText(orders.get(position).getNature());
@@ -57,6 +59,7 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.MyViewHold
         holder.year.setText(orders.get(position).getRecorded_date().substring(this_year.length()-4));
         holder.month_text.setText(orders.get(position).getRecorded_date().substring(this_year.indexOf("-")+1,this_year.lastIndexOf("-")));
         holder.date_txt.setText(orders.get(position).getRecorded_date().substring(0,this_year.length()-9));
+
         //Picasso.get().load(orders.get(position).getImage_url()).into(holder.image_view);
         /*if(profiles.get(position).getPermission()) {
             holder.btn.setVisibility(View.VISIBLE);
@@ -77,17 +80,17 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.MyViewHold
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            order_number        =  itemView.findViewById(R.id.order_number);
-            customer_name      =  itemView.findViewById(R.id.customer_name);
-            nature     =  itemView.findViewById(R.id.nature);
-            phone         =  itemView.findViewById(R.id.phone);
-            product       =  itemView.findViewById(R.id.product);
-            quantity        =  itemView.findViewById(R.id.quantity);
-            total        =  itemView.findViewById(R.id.total);
-            time_ordered        =  itemView.findViewById(R.id.time_ordered);
-            year        =  itemView.findViewById(R.id.year);
-            date_txt        =  itemView.findViewById(R.id.date_text);
-            month_text        =  itemView.findViewById(R.id.month_text);
+            order_number   =  itemView.findViewById(R.id.order_number);
+            customer_name  =  itemView.findViewById(R.id.customer_name);
+            nature         =  itemView.findViewById(R.id.nature);
+            phone          =  itemView.findViewById(R.id.phone);
+            product        =  itemView.findViewById(R.id.product);
+            quantity       =  itemView.findViewById(R.id.quantity);
+            total          =  itemView.findViewById(R.id.total);
+            time_ordered   =  itemView.findViewById(R.id.time_ordered);
+            year           =  itemView.findViewById(R.id.year);
+            date_txt       =  itemView.findViewById(R.id.date_text);
+            month_text     =  itemView.findViewById(R.id.month_text);
             //image_view  =  itemView.findViewById(R.id.image_view);
         }
         public void onClick(final int position)

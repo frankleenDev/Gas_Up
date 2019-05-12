@@ -34,7 +34,6 @@ public class OrderSummary extends AppCompatActivity
     protected void onCreate(final Bundle paramBundle) {
         super.onCreate(paramBundle);
         setContentView(R.layout.activity_order_summary);
-
         //final String order_number = get_receipt();
 
         //Toast.makeText(getApplicationContext(),order_number,Toast.LENGTH_LONG).show();
@@ -69,17 +68,21 @@ public class OrderSummary extends AppCompatActivity
 
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View paramAnonymousView) {
+
                 confirm_btn.setEnabled(false);
-                //((LinearLayout)OrderSummary.this.findViewById(2131230859)).setVisibility(0);
-                final ProgressBar progressBar = OrderSummary.this.findViewById(R.id.progress_bar4);
+
+                final LinearLayout linearLayout = findViewById(R.id.linearProgress4);
+                final ProgressBar progressBar   = findViewById(R.id.progress_bar4);
+                linearLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
+
+                //((LinearLayout)OrderSummary.this.findViewById(2131230859)).setVisibility(0)
 
                 String time_recorded = new SimpleDateFormat("HH:mm:ss dd-MMM-yyyy").format(new Date());
                 String date_substring = time_recorded.substring(time_recorded.length()-11);
                 String time_substring = time_recorded.substring(0,time_recorded.length()-12);
                 final String month_year = date_substring.substring(date_substring.length()-8);
 
-                Toast.makeText(getApplicationContext(),month_year,Toast.LENGTH_SHORT).show();
 
                 final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -95,7 +98,12 @@ public class OrderSummary extends AppCompatActivity
 
                         firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Orders").child(month_year).push().setValue(vendorClass);
 
+                        Toast.makeText(getApplicationContext(),"Oder was sent successfully.",Toast.LENGTH_LONG).show();
+
+
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        linearLayout.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         finish();
 
                     }

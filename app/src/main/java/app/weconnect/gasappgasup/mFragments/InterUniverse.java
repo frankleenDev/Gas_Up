@@ -28,19 +28,16 @@ public class InterUniverse extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView=inflater.inflate(R.layout.interuniverse,null);
-
+        View rootView=inflater.inflate(R.layout.interuniverse, container, false);
 
         //REFERENCE
         //rv= (RecyclerView) rootView.findViewById(R.id.interuniverse_RV);
 
         //LAYOUT MANAGER
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //ADAPTER
         //rv.setAdapter(new MyAdapter(getActivity(),spacecrafts));
-
-
 
         return rootView;
     }

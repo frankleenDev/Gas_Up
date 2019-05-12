@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import app.weconnect.gasappgasup.R;
 import app.weconnect.gasappgasup.SplashScreen;
@@ -39,6 +44,7 @@ public class SignUpVendor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_vendor);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -85,75 +91,55 @@ public class SignUpVendor extends AppCompatActivity {
                     return;
                 }
 
-                if (TextUtils.isEmpty(branch_name)) {
-                    Toast.makeText(getApplicationContext(), "Enter a branch name..!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(mobile)) {
-                    Toast.makeText(getApplicationContext(), "Enter mobile number address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(company_name)) {
-                    Toast.makeText(getApplicationContext(), "Enter Company name!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 progressBar.setVisibility(View.VISIBLE);
-                //create user
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignUpVendor.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignUpVendor.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
 
-                                    firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("users");
+                ref.orderByChild("Phone").equalTo(agent_name).addValueEventListener(new ValueEventListener(){
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                            String keys = datas.getKey();
 
-                                    // get reference to 'users' node
-                                    //dataRef = firebaseDatabase.getReference("users");
+                            Toast.makeText(getApplicationContext(),keys,Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-                                    //String userId = firebaseDatabase.getReference("users").push().getKey();
-                                    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                                    // store app title to 'app_title' node
-                                    firebaseDatabase.getReference("app_title").setValue("Gas App Gas Up");
+                    }});
 
-                                    VendorProfile userProfile = new VendorProfile(agent_name, branch_name, company_name, mobile, email, currentFirebaseUser.getUid());
-                                    SummaryClass summaryClass = new SummaryClass(Long.valueOf(0),Long.valueOf(0),Long.valueOf(0));
 
-                                    firebaseDatabase.getReference("vendors").child(currentFirebaseUser.getUid()).child("Profile").setValue(userProfile);
-                                    firebaseDatabase.getReference("vendors").child(currentFirebaseUser.getUid()).child("Summary").setValue(summaryClass);
+                /*
+                Query dateQuery = FirebaseDatabase.getInstance().getReference("users").orderByChild("Phone").equalTo(agent_name);
 
-                                    startActivity(new Intent(getApplicationContext(), SplashScreen.class));
-                                    finish();
-                                }
-                            }
-                        });
+                dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        if (dataSnapshot.exists()) {
+                            //ExistD();
+
+                            String found = (String) dataSnapshot.getKey();
+
+                            Toast.makeText(getApplicationContext(),found,Toast.LENGTH_LONG).show();
+
+
+                        } else {
+
+                            Toast.makeText(getApplicationContext(),"Data not found..",Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                    // put rest of your code here
+                });
+                */
 
 
             }
