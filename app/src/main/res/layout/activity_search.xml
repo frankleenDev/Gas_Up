@@ -57,9 +57,9 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_view"
+        android:id="@+id/result_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"></android.support.v7.widget.RecyclerView>
+        android:layout_marginTop="120dp"/>
 
 </RelativeLayout>

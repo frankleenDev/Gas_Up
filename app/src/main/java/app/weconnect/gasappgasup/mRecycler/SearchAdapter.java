@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
 
-    Context context;
-    ArrayList<User> profiles;
+    private Context context;
+    private ArrayList<User> profiles;
 
     public SearchAdapter(Context c , ArrayList<User> p)
     {
@@ -30,7 +30,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,final int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.user,parent,false));
     }
 
@@ -73,16 +73,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
         LinearLayout user_linearLayout;
 
-        public MyViewHolder(View itemView) {
+        private MyViewHolder(View itemView) {
             super(itemView);
             user_id             =  itemView.findViewById(R.id.buying_price);
             phone_no            =  itemView.findViewById(R.id.refill_price);
             user_linearLayout   =  itemView.findViewById(R.id.user_linearLayout);
 
         }
-        public void onClick(final int position)
-        {
 
-        }
     }
 }
