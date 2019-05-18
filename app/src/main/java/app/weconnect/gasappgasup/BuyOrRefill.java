@@ -68,6 +68,7 @@ public class BuyOrRefill extends AppCompatActivity {
                 str4 = paramAnonymousDataSnapshot.child("vendor").getValue().toString();
                 String buying_price = paramAnonymousDataSnapshot.child("desc").getValue().toString();
                 String refill_price = paramAnonymousDataSnapshot.child("refill").getValue().toString();
+
                 BuyOrRefill.this.newz.setDesc(buying_price);
                 BuyOrRefill.this.newz.setImage(str1);
                 BuyOrRefill.this.newz.setTitle(title);

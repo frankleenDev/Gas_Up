@@ -296,7 +296,7 @@ public class SplashScreen extends AppCompatActivity {
 
                         if(jan!=-1) {
 
-                            Intent intent = new Intent(getApplicationContext(), VendorDashBoard.class);
+                            Intent intent = new Intent(getApplicationContext(), VendorActivity.class);
                             intent.putExtra("jan", jan);
                             intent.putExtra("feb", feb);
                             intent.putExtra("mar", mar);

@@ -106,7 +106,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle mDrawerToggle;
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
         View headerView = navigationView.getHeaderView(0);
         TextView phone_number = (TextView) headerView.findViewById(R.id.my_number);
         //navUsername.setText("Your Text Here");
@@ -138,9 +138,9 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
         //setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 
-        if (actionBar != null)
+        if (actionBar == null)
         {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setDisplayHomeAsUpEnabled(true);
             mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer)
             {
 
@@ -267,7 +267,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
                 //toggle.syncState();
 
                 //REFERNCE NAV VIEW AND ATTACH ITS ITEM SELECTION LISTENER
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
                 navigationView.setNavigationItemSelectedListener(VendorActivity.this);
             }
 
@@ -322,7 +322,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
                 //toggle.syncState();
 
                 //REFERNCE NAV VIEW AND ATTACH ITS ITEM SELECTION LISTENER
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
                 navigationView.setNavigationItemSelectedListener(VendorActivity.this);
             }
 
@@ -377,7 +377,7 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
                 //toggle.syncState();
 
                 //REFERNCE NAV VIEW AND ATTACH ITS ITEM SELECTION LISTENER
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
                 navigationView.setNavigationItemSelectedListener(VendorActivity.this);
             }
 

@@ -38,13 +38,20 @@ public class SignUpVendor extends AppCompatActivity {
     private DatabaseReference dataRef;
     private FirebaseDatabase firebaseDatabase;
 
-    private String agent_name, lname, branch_name, mobile, email, company_name;
+    private String agent_name, lname, branch_name, mobile, email, company_name, user_id, user_phone_no;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_vendor);
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        if(getIntent()!=null) {
+
+            Bundle bundle = getIntent().getExtras();
+            user_id = bundle.getString("user_id");
+            user_phone_no = bundle.getString("user_phone_no");
+
+        }
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -91,55 +98,71 @@ public class SignUpVendor extends AppCompatActivity {
                     return;
                 }
 
+                if (TextUtils.isEmpty(branch_name)) {
+                    Toast.makeText(getApplicationContext(), "Enter a branch name..!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                progressBar.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(mobile)) {
+                    Toast.makeText(getApplicationContext(), "Enter mobile number address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("users");
-                ref.orderByChild("Phone").equalTo(agent_name).addValueEventListener(new ValueEventListener(){
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot datas : dataSnapshot.getChildren()) {
-                            String keys = datas.getKey();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                            Toast.makeText(getApplicationContext(),keys,Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }});
-
+                if (TextUtils.isEmpty(company_name)) {
+                    Toast.makeText(getApplicationContext(), "Enter Company name!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 /*
-                Query dateQuery = FirebaseDatabase.getInstance().getReference("users").orderByChild("Phone").equalTo(agent_name);
-
-                dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        if (dataSnapshot.exists()) {
-                            //ExistD();
-
-                            String found = (String) dataSnapshot.getKey();
-
-                            Toast.makeText(getApplicationContext(),found,Toast.LENGTH_LONG).show();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 
-                        } else {
-
-                            Toast.makeText(getApplicationContext(),"Data not found..",Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                    // put rest of your code here
-                });
+                if (password.length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 */
+
+                progressBar.setVisibility(View.VISIBLE);
+                //create user
+
+
+                                    firebaseDatabase = FirebaseDatabase.getInstance();
+
+                                    // get reference to 'users' node
+                                    //dataRef = firebaseDatabase.getReference("users");
+
+                                    //String userId = firebaseDatabase.getReference("users").push().getKey();
+                                    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+
+                                    // store app title to 'app_title' node
+                                    firebaseDatabase.getReference("app_title").setValue("Gas App Gas Up");
+
+                                    VendorProfile userProfile = new VendorProfile(agent_name, branch_name, company_name, mobile, email, user_phone_no);
+                                    final SummaryClass summaryClass = new SummaryClass("0","0","0");
+
+                                    firebaseDatabase.getReference("vendors").child(user_id).child("Profile").setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            firebaseDatabase.getReference("vendors").child(user_id).child("Summary").child("root").setValue(summaryClass);
+
+                                            Toast.makeText(getApplicationContext(),"Vendor successful registered..!",Toast.LENGTH_LONG).show();
+
+                                            //startActivity(new Intent(getApplicationContext(), SplashScreen.class));
+                                            finish();
+
+                                        }
+                                    });
+
 
 
             }

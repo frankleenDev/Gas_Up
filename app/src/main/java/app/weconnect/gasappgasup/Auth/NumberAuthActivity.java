@@ -19,6 +19,7 @@ import java.util.Arrays;
 import app.weconnect.gasappgasup.MainActivity;
 import app.weconnect.gasappgasup.R;
 import app.weconnect.gasappgasup.SplashScreen;
+import app.weconnect.gasappgasup.User;
 
 public class NumberAuthActivity extends AppCompatActivity {
 
@@ -75,7 +76,10 @@ public class NumberAuthActivity extends AppCompatActivity {
 
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-                    database.child("users").child(auth.getCurrentUser().getUid()).child("Profile").child("Phone").setValue(mobile_phone);
+                    User user = new User(auth.getCurrentUser().getUid(),mobile_phone);
+
+                    database.child("users").child(auth.getCurrentUser().getUid()).child("Profile/Phone").setValue(mobile_phone);
+                    database.child("users").child(auth.getCurrentUser().getUid()).child("userMetaData").child("root").setValue(user);
 
                     startActivity(new Intent(this, SplashScreen.class)
                             .putExtra("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));

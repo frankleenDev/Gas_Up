@@ -34,9 +34,11 @@ import static java.lang.String.valueOf;
  */
 public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyViewHolder> {
 
-    Context context;
-    ArrayList<PredefinedItems> orders;
-    String vendor_name;
+    private Context context;
+    private ArrayList<PredefinedItems> orders;
+    private String vendor_name = "Unkown";
+    private DatabaseReference firebaseDatabase;
+    private String buying_prize, vendorUID, refill_prize;
 
 
     public SetItemsAdapter(Context c , ArrayList<PredefinedItems> o)
@@ -50,6 +52,29 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+        vendorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child(vendorUID).child("Profile").child("agents_name");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //adapter = new MyAdapter(VendorActivity.this, list);
+                //recyclerView.setAdapter(adapter);
+
+                vendor_name = (String) dataSnapshot.getValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.add_item_row,parent,false));
 
     }
@@ -72,39 +97,19 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
-                final String vendorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child(vendorUID+position).child("Profile").child("agents_name");
-
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        //adapter = new MyAdapter(VendorActivity.this, list);
-                        //recyclerView.setAdapter(adapter);
-
-                        vendor_name = (String) dataSnapshot.getValue();
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
 
                 if (isChecked) {
 
                     //EditText editText = findViewById(R.id.refill_price);
 
-                    String buying_prize = holder.buying_price.getText().toString();
-                    String refill_prize = holder.refill_price.getText().toString();
+                    buying_prize = holder.buying_price.getText().toString();
+                    refill_prize = holder.refill_price.getText().toString();
 
-                    Products newz = new Products(orders.get(position).getTitle(),buying_prize,orders.get(position).getImage(),String.valueOf(position),"url",refill_prize,vendorUID,vendor_name);
+                    Products newz = new Products(orders.get(position).getTitle(),buying_prize,orders.get(position).getImage(),String.valueOf(position),"url",refill_prize,vendorUID+position,vendor_name);
+
 
                     firebaseDatabase.child("Shop").child(vendorUID+position).setValue(newz);
+
 
                     //checkedStatus[holder.getAdapterPosition()] = true;
                     //performCheckedActions(); //your logic here
@@ -153,5 +158,10 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
             // }
             //});
         }
+    }
+
+    public void fetchVendor(){
+
+
     }
 }

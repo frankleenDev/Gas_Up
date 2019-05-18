@@ -1,6 +1,7 @@
 package app.weconnect.gasappgasup.mRecycler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import app.weconnect.gasappgasup.Auth.SignUpVendor;
 import app.weconnect.gasappgasup.R;
 import app.weconnect.gasappgasup.User;
 
@@ -51,12 +53,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         holder.user_linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, BuyOrRefill.class);
-                //intent.putExtra("prod_id", profiles.get(position).getUID());
-                context.startActivity(intent);*/
+                //Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, SignUpVendor.class);
+                intent.putExtra("user_id", profiles.get(position).getUid());
+                intent.putExtra("user_phone_no", profiles.get(position).getNumber());
+                context.startActivity(intent);
 
-                Toast.makeText(context,position,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,position,Toast.LENGTH_SHORT).show();
 
             }
         });

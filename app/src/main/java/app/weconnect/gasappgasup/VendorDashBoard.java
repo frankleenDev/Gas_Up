@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -46,6 +47,7 @@ public class VendorDashBoard extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private ActionBar toolbar;
     private FirebaseAuth auth;
+    SummaryClass summaryClass;
     private FirebaseUser auth1 = FirebaseAuth.getInstance().getCurrentUser();
     private int janCount, febCount, marCount, aprCount, mayCount, junCount, julCount, augCount, sepCount, octCount, novCount, decCount;
 
@@ -96,40 +98,44 @@ public class VendorDashBoard extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("vendors").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+        DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("vendors").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Summary");
 
-                        if (dataSnapshot.exists()){
+        dataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot3) {
+                //summaryClasses = new ArrayList<>();
+                for (DataSnapshot dataSnapshot5 : dataSnapshot3.getChildren()) {
 
-                            //SummaryClass summaryClass = new SummaryClass();
+                    //SummaryClass x = dataSnapshot5.getValue(SummaryClass.class);
 
-                            final SummaryClass summaryClass1 = dataSnapshot.child("Summary").getValue(SummaryClass.class);
+                    if (dataSnapshot5.exists()) {
 
-                            runOnUiThread(new Runnable() {
-                                public void run() {
+                        //SummaryClass summaryClass = new SummaryClass();
 
-                                    clietz.setText(summaryClass1.getClients().toString());
-                                    produtz.setText(summaryClass1.getProducts().toString());
-                                    deliveriz.setText(summaryClass1.getDeliveries().toString());
+                        summaryClass = dataSnapshot5.child("Summary").getValue(SummaryClass.class);
 
-                                }
-                            });
+                        runOnUiThread(new Runnable() {
+                            public void run() {
 
-                            //Toast.makeText(getApplicationContext(),client_sum.toString(),Toast.LENGTH_SHORT).show();
+                                clietz.setText(summaryClass.getClients());
+                                produtz.setText(summaryClass.getProducts());
+                                deliveriz.setText(summaryClass.getDeliveries());
 
-                        } else {
+                            }
+                        });
 
-                            //mProgressDialog.dismiss();
-                            //Snackbar.make(view, "datasnapshot is null", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        //Toast.makeText(getApplicationContext(),client_sum.toString(),Toast.LENGTH_SHORT).show();
 
-                        }
+                    } else {
+
+                        //mProgressDialog.dismiss();
+                        //Snackbar.make(view, "datasnapshot is null", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
                     }
+                }}
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(DatabaseError dataSnapshot5) {
 
                         //progressBar.setVisibility(View.GONE);
                     }

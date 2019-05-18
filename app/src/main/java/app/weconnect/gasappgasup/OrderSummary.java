@@ -30,6 +30,7 @@ import java.util.Date;
 public class OrderSummary extends AppCompatActivity
 {
 
+    SummaryClass summaryClass;
 
     protected void onCreate(final Bundle paramBundle) {
         super.onCreate(paramBundle);
@@ -37,6 +38,9 @@ public class OrderSummary extends AppCompatActivity
         //final String order_number = get_receipt();
 
         //Toast.makeText(getApplicationContext(),order_number,Toast.LENGTH_LONG).show();
+
+        String vendorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
         Bundle bundle = getIntent().getExtras();
         final String item = bundle.getString("item");
@@ -48,6 +52,23 @@ public class OrderSummary extends AppCompatActivity
         final String str5 = bundle.getString("location");
         final String order_no = bundle.getString("order_no");
         final String image_url = bundle.getString("image_string");
+
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary/root");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                summaryClass = dataSnapshot.getValue(SummaryClass.class);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         final TextView type_text      = findViewById(R.id.type_text);
@@ -95,6 +116,14 @@ public class OrderSummary extends AppCompatActivity
                     public void onComplete(@NonNull Task<Void> task) {
 
                         //Toast.makeText(getApplicationContext(),get_receipt(),Toast.LENGTH_LONG).show();
+
+                        int clients =  Integer.parseInt(summaryClass.getClients()) + 1;
+                        int products =  Integer.parseInt(summaryClass.getProducts()) + Integer.parseInt(str1);
+                        int deliveries =  Integer.parseInt(summaryClass.getDeliveries()) + 1;
+
+                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary").child("root").child("clients").setValue(String.valueOf(clients));
+                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary").child("root").child("products").setValue(String.valueOf(products));
+                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary").child("root").child("deliveries").setValue(String.valueOf(deliveries));
 
                         firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Orders").child(month_year).push().setValue(vendorClass);
 

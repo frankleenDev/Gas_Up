@@ -158,7 +158,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#CCFF0000"
+        android:background="#fff"
         app:menu="@menu/vendor_main_menu">
 
     </android.support.design.widget.NavigationView>
