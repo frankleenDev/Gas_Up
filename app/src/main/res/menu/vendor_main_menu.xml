@@ -14,6 +14,10 @@
             android:id="@+id/productz"
             android:icon="@mipmap/gas"
             android:title="My Products" />
+        <item
+            android:id="@+id/shop"
+            android:icon="@mipmap/gas"
+            android:title="Shop" />
 
     </group>
 

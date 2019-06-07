@@ -325,7 +325,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/cancel_btn"
+                    android:background="@drawable/border_cancel"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:text="Cancel" />
 
@@ -336,7 +336,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@drawable/border"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:text="Place Order" />
 

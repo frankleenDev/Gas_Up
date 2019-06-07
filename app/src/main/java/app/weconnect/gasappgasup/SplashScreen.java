@@ -14,17 +14,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.weconnect.gasappgasup.Auth.NumberAuthActivity;
 import app.weconnect.gasappgasup.mRecycler.MyAdapter;
@@ -203,7 +209,7 @@ public class SplashScreen extends AppCompatActivity {
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
                 //adapter = new MyAdapter(VendorActivity.this, list);
                 //recyclerView.setAdapter(adapter);
@@ -226,6 +232,23 @@ public class SplashScreen extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), auth, Toast.LENGTH_LONG).show();
 
                     //checkData();
+
+                     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                     FirebaseAuth mauth = FirebaseAuth.getInstance();
+
+
+                            String token_id = FirebaseInstanceId.getInstance().getToken();
+                            String current_id = mauth.getCurrentUser().getUid();
+
+                            String vendor_name = (String) dataSnapshot.child(current_id).child("Profile").child("agents_name").getValue();
+
+                            Map<String, Object> tokenMap = new HashMap<>();
+                            tokenMap.put("token_id", token_id);
+                            tokenMap.put("venodr_name", vendor_name);
+
+
+                            firestore.collection("vendors").document(current_id).set(tokenMap);
+
 
                     Intent intent = new Intent(getApplicationContext(), VendorActivity.class);
                     intent.putExtra("jan", jan);

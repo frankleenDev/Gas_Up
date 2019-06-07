@@ -130,7 +130,7 @@ public class BuyOrRefill extends AppCompatActivity {
         localIntent.putExtra("quantity", this.qty.getText().toString());
         localIntent.putExtra("item_price", paramString2);
         localIntent.putExtra("refill_buy", paramString1);
-        localIntent.putExtra("vendor", str4);
+        localIntent.putExtra("vendor", str4.substring(0,str4.length()-1));
         localIntent.putExtra("chosen_vendor", this.newz.getVendor());
         localIntent.putExtra("image_string", this.newz.getImage());
         startActivity(localIntent);

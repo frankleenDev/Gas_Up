@@ -43,6 +43,7 @@ public class MyOrders extends RecyclerView.Adapter<MyOrders.MyViewHolder> {
 
         holder.type.setText(orders.get(position).getType());
         holder.nature.setText(orders.get(position).getNature());
+        holder.status.setText(orders.get(position).getStatus());
         holder.total.setText(orders.get(position).getTotal());
         holder.date.setText(orders.get(position).getTime_ordered());
         holder.quality.setText(orders.get(position).getQuantity());
@@ -68,7 +69,7 @@ public class MyOrders extends RecyclerView.Adapter<MyOrders.MyViewHolder> {
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView type,nature, quality, loc, total, date;
+        TextView type,nature, quality, loc, total, date, status;
         ImageView image_view;
 
         public MyViewHolder(View itemView) {
@@ -80,6 +81,7 @@ public class MyOrders extends RecyclerView.Adapter<MyOrders.MyViewHolder> {
             total       =  itemView.findViewById(R.id.total_txt);
             date        =  itemView.findViewById(R.id.date_txt);
             image_view  =  itemView.findViewById(R.id.image_view);
+            status      =  itemView.findViewById(R.id.status);
         }
         public void onClick(final int position)
         {

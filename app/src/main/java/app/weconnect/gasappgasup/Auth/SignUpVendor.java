@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import app.weconnect.gasappgasup.R;
 import app.weconnect.gasappgasup.SplashScreen;
@@ -37,6 +41,7 @@ public class SignUpVendor extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference dataRef;
     private FirebaseDatabase firebaseDatabase;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private String agent_name, lname, branch_name, mobile, email, company_name, user_id, user_phone_no;
 
@@ -50,6 +55,8 @@ public class SignUpVendor extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             user_id = bundle.getString("user_id");
             user_phone_no = bundle.getString("user_phone_no");
+
+            //user_id = user_id.substring(0,user_id.length()-1);
 
         }
 
@@ -145,8 +152,9 @@ public class SignUpVendor extends AppCompatActivity {
 
                                     // store app title to 'app_title' node
                                     firebaseDatabase.getReference("app_title").setValue("Gas App Gas Up");
+                                    //db.collection("app_title").add("Gass App Gas Up");
 
-                                    VendorProfile userProfile = new VendorProfile(agent_name, branch_name, company_name, mobile, email, user_phone_no);
+                                    final VendorProfile userProfile = new VendorProfile(agent_name, branch_name, company_name, mobile, email, user_phone_no);
                                     final SummaryClass summaryClass = new SummaryClass("0","0","0");
 
                                     firebaseDatabase.getReference("vendors").child(user_id).child("Profile").setValue(userProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -156,6 +164,23 @@ public class SignUpVendor extends AppCompatActivity {
                                             firebaseDatabase.getReference("vendors").child(user_id).child("Summary").child("root").setValue(summaryClass);
 
                                             Toast.makeText(getApplicationContext(),"Vendor successful registered..!",Toast.LENGTH_LONG).show();
+
+                                            db.collection("vendors/"+user_id+"/Profile")
+                                                    .add(userProfile)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+
+                                                            db.collection("vendors/"+user_id+"/Summary").add(summaryClass);
+
+                                                            Toast.makeText(getApplicationContext(),"Profile added Successful..!",Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
 
                                             //startActivity(new Intent(getApplicationContext(), SplashScreen.class));
                                             finish();

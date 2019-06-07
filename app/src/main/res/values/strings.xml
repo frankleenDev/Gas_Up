@@ -14,6 +14,7 @@
     <string name="cancel">Cancel</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="default_notification_channel_id">GasApp Channel</string>
 
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="dummy_button">Dummy Button</string>

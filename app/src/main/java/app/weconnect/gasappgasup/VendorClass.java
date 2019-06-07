@@ -9,6 +9,7 @@ public class VendorClass {
     String quantity;
     String time;
     String total;
+    String location;
     String product;
     String recorded_date;
 
@@ -16,13 +17,14 @@ public class VendorClass {
     public VendorClass() {
     }
 
-    public VendorClass(String order_no, String customer, String nature, String phone_no, String quantity, String time, String total, String product, String recorded_date) {
+    public VendorClass(String order_no, String customer, String nature, String phone_no, String quantity, String location, String time, String total, String product, String recorded_date) {
         this.order_no      = order_no;
         this.customer      = customer;
         this.nature        = nature;
         this.phone_no      = phone_no;
         this.quantity      = quantity;
         this.time          = time;
+        this.location      = location;
         this.total         = total;
         this.product       = product;
         this.recorded_date = recorded_date;
@@ -101,4 +103,11 @@ public class VendorClass {
         this.recorded_date = recorded_date;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

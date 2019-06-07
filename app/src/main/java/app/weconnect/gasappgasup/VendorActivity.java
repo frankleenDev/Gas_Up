@@ -25,6 +25,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import app.weconnect.gasappgasup.Auth.NumberAuthActivity;
 import app.weconnect.gasappgasup.Auth.SignUpVendor;
@@ -48,6 +51,8 @@ import app.weconnect.gasappgasup.mRecycler.VendorAdapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VendorActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -212,8 +217,24 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
 
         }  else if (id == R.id.sign_out2) {
 
-            signOut();
-            //VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterUniverse.newInstance()).commit();
+            FirebaseFirestore fr = FirebaseFirestore.getInstance();
+            FirebaseAuth fa = FirebaseAuth.getInstance();
+            String current_id = fa.getCurrentUser().getUid();
+
+            Map<String, Object> remove_id = new HashMap<>();
+            remove_id.put("token_id", "");
+
+            //Toast.makeText(getApplicationContext(),current_id,Toast.LENGTH_SHORT).show();
+
+            fr.collection("vendors").document(current_id).update(remove_id).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                    signOut();
+
+                }
+            });
+
 
         } else if (id == R.id.productz) {
 
@@ -221,8 +242,14 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
             VendorActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.containerID, InterStellar.newInstance()).commit();
 
 
+        }else if (id == R.id.shop) {
+
+            Shop();
+
+
         } else if (id == R.id.add_vendor) {
 
+            //startActivity(new Intent(getApplicationContext(), SearchActivity.class));
             startActivity(new Intent(getApplicationContext(), SearchActivity.class));
         }
 
@@ -379,6 +406,46 @@ public class VendorActivity extends AppCompatActivity implements NavigationView.
                 //REFERNCE NAV VIEW AND ATTACH ITS ITEM SELECTION LISTENER
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
                 navigationView.setNavigationItemSelectedListener(VendorActivity.this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void Shop(){
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               ArrayList<Products> list = new ArrayList<Products>();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    Products p = dataSnapshot1.getValue(Products.class);
+                    list.add(p);
+                }
+                MyAdapter adapter = new MyAdapter(VendorActivity.this, list);
+                recyclerView.setAdapter(adapter);
+
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
+                        startActivity(new Intent(getApplicationContext(), NumberAuthActivity.class));
+                    }
+                });
+
+                //REFERENCE DRAWER,TOGGLE ITS INDICATOR
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                //drawer.addDrawerListener(toggle);
+                //toggle.syncState();
+
+
             }
 
             @Override

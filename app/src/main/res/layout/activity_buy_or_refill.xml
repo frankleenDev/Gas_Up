@@ -102,7 +102,7 @@
                         android:id="@+id/minus_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
+                        android:background="@drawable/border_cancel"
                         android:elevation="8dp"
                         android:layout_margin="1dp"
                         android:shadowColor="#000"
@@ -114,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="1dp"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@drawable/border"
                         android:layout_weight="1"
                         android:text="+" />
                 </LinearLayout>
@@ -139,7 +139,7 @@
                     android:layout_weight="1"
                     android:layout_margin="1dp"
                     android:shadowRadius="@integer/fui_min_password_length"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/border"
                     android:text="Refill" />
 
                 <Button
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/border"
                     android:layout_weight="1"
                     android:text="Buy" />
 

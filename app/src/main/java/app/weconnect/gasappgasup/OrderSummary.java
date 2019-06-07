@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -31,13 +32,11 @@ public class OrderSummary extends AppCompatActivity
 {
 
     SummaryClass summaryClass;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     protected void onCreate(final Bundle paramBundle) {
         super.onCreate(paramBundle);
         setContentView(R.layout.activity_order_summary);
-        //final String order_number = get_receipt();
-
-        //Toast.makeText(getApplicationContext(),order_number,Toast.LENGTH_LONG).show();
 
         String vendorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -54,7 +53,7 @@ public class OrderSummary extends AppCompatActivity
         final String image_url = bundle.getString("image_string");
 
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary/root");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("vendors").child(str6).child("Summary/root");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -107,9 +106,9 @@ public class OrderSummary extends AppCompatActivity
 
                 final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                final Orders orders = new Orders(item, str2, str1, str3, str5, str4, image_url, time_recorded);
+                final Orders orders = new Orders(item, str2, str1, str3, str5, str4, image_url, time_recorded, "Requested");
 
-                final VendorClass vendorClass = new VendorClass(order_no,  "Customer", str2, FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber(),str1, time_substring,str4,item,date_substring);
+                final VendorClass vendorClass = new VendorClass(order_no,  "Customer", str2, FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber(),str1, str5, time_substring,str4,item,date_substring);
 
                 firebaseDatabase.getReference("users").child(firebaseUser.getUid()).child("Orders").push().setValue(orders).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -121,13 +120,18 @@ public class OrderSummary extends AppCompatActivity
                         int products =  Integer.parseInt(summaryClass.getProducts()) + Integer.parseInt(str1);
                         int deliveries =  Integer.parseInt(summaryClass.getDeliveries()) + 1;
 
-                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary").child("root").child("clients").setValue(String.valueOf(clients));
-                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary").child("root").child("products").setValue(String.valueOf(products));
-                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Summary").child("root").child("deliveries").setValue(String.valueOf(deliveries));
+                        firebaseDatabase.getReference("vendors").child(str6).child("Summary").child("root").child("clients").setValue(String.valueOf(clients));
+                        firebaseDatabase.getReference("vendors").child(str6).child("Summary").child("root").child("products").setValue(String.valueOf(products));
+                        firebaseDatabase.getReference("vendors").child(str6).child("Summary").child("root").child("deliveries").setValue(String.valueOf(deliveries));
 
-                        firebaseDatabase.getReference("vendors").child(str6.substring(0,str6.length()-1)).child("Orders").child(month_year).push().setValue(vendorClass);
+                        firebaseDatabase.getReference("vendors").child(str6).child("Orders").child(month_year).push().setValue(vendorClass);
 
                         Toast.makeText(getApplicationContext(),"Oder was sent successfully.",Toast.LENGTH_LONG).show();
+
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                        db.collection("vendors/"+str6+"/Orders").add(vendorClass);
+                        db.collection("Users/"+auth.getCurrentUser().getUid()+"/Orders").add(orders);
 
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));

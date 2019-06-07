@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.MyViewHolder> {
 
-    Context context;
-    ArrayList<SummaryClass> orders;
+    private Context context;
+    private ArrayList<SummaryClass> orders;
 
     public DashBoardAdapter(Context c , ArrayList<SummaryClass> o)
     {
@@ -55,7 +55,7 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.MyVi
         TextView clients_text, productz_text, delivery_text;
         //ImageView image_view;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
 
             clients_text   =  itemView.findViewById(R.id.clients_text);
@@ -63,13 +63,6 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.MyVi
             delivery_text  =  itemView.findViewById(R.id.delivery_text);
 
         }
-        public void onClick(final int position)
-        {
-            //image_view.setOnClickListener(new View.OnClickListener() {
-            // @Override
-            // public void onClick(View v) {
-            // }
-            //});
-        }
+
     }
 }

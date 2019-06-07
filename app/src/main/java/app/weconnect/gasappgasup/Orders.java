@@ -10,10 +10,11 @@ public class Orders {
     String total;
     String type;
     String vendor;
+    String status;
 
     public Orders() {}
 
-    public Orders(String type, String nature, String quantity, String vendor, String location, String total, String image_url, String time_ordered)
+    public Orders(String type, String nature, String quantity, String vendor, String location, String total, String image_url, String time_ordered, String status)
     {
         this.type = type;
         this.nature = nature;
@@ -23,6 +24,7 @@ public class Orders {
         this.total = total;
         this.image_url = image_url;
         this.time_ordered = time_ordered;
+        this.status = status;
     }
 
     public String getImage_url()
@@ -105,4 +107,11 @@ public class Orders {
         this.vendor = vendor;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

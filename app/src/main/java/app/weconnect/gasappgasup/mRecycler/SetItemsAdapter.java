@@ -45,13 +45,12 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
     {
         context = c;
         orders = o;
+
+        get_vendor();
     }
 
 
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    private void get_vendor(){
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         vendorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -74,6 +73,13 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
 
             }
         });
+
+    }
+
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.add_item_row,parent,false));
 
@@ -104,6 +110,7 @@ public class SetItemsAdapter extends RecyclerView.Adapter<SetItemsAdapter.MyView
 
                     buying_prize = holder.buying_price.getText().toString();
                     refill_prize = holder.refill_price.getText().toString();
+
 
                     Products newz = new Products(orders.get(position).getTitle(),buying_prize,orders.get(position).getImage(),String.valueOf(position),"url",refill_prize,vendorUID+position,vendor_name);
 
