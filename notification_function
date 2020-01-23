@@ -1,0 +1,57 @@
+'use-strict'
+
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+
+exports.sendNotification = functions.firestore.document("vendors/{user_id}/Orders/{order_id}").onWrite((change, context)=> {
+
+	const user_id = context.params.user_id;
+	const order_id = context.params.order_id;
+
+return admin.firestore().collection("vendors").doc(user_id).get().then(queryResult =>{
+
+
+	const from_order = queryResult.data().vendor_name;
+	const token_id = queryResult.data().token_id;
+
+	return admin.firestore().collection("vendors").doc(user_id).collection("Orders").doc(order_id).get().then(result =>{
+
+
+	const order_from  = result.data().phone_no;
+	const nature      = result.data().nature;
+	const product     = result.data().product;
+	const quantity    = result.data().quantity;
+	const customer_id = result.data().customer_id;
+	//const order_data = result.get();
+
+		  console.log("FROM : "+ order_from );
+
+		  const payload = {
+		  	notification: {
+		  		title: "Order from : " + order_from ,
+		  		body: "Type : " + nature + ", Product : "+ product + ", Quantity : " + quantity,
+		  		icon: "default",
+		  		click_action: "app.weconnect.gasappgasup.TARGETNOTIFICATION"
+		  	},
+		  	data: {
+		  		order_id: order_id,
+		  		customer_id: customer_id
+		  	}
+		  };
+
+		  return admin.messaging().sendToDevice(token_id, payload).then(result => {
+
+		  	console.log("Notificaiton Sent.");
+
+		  	return user_id;
+
+		  });
+
+ });
+
+});
+
+
+
+});
