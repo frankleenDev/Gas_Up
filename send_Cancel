@@ -1,0 +1,46 @@
+'use-strict'
+
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+
+exports.sendCancelled = functions.firestore.document("vendors/{user_id}/Cancelled/{delivery_id}").onWrite((change, context)=> {
+
+	const user_id 	  = context.params.user_id;
+	const delivery_id = context.params.delivery_id;
+
+
+	return admin.firestore().collection("vendors").doc(user_id).collection("Cancelled").doc(delivery_id).get().then(result =>{
+
+
+	const token_id      = result.data().token_id;
+	const order_number  = result.data().order_id;
+	
+	//const order_data = result.get();
+
+		  console.log("FROM : "+ order_number );
+
+		  const payload = {
+		  	notification: {
+		  		title: "Order status",
+		  		body:  "Order #" + order_number + " was cancelled by vendor.",
+		  		icon: "default",
+		  		click_action: "app.weconnect.gasappgasup.TARGETNOTIFICATION"
+		  	},
+		  	data: {
+		  		order_number: order_number
+		  	}
+		  };
+
+		  return admin.messaging().sendToDevice(token_id, payload).then(result => {
+
+		  	console.log("Notificaiton Sent.");
+
+		  	return user_id;
+
+		  });
+
+ });
+
+});
+
